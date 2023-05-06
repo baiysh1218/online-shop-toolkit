@@ -4,22 +4,18 @@ import { getProduct } from "../../../../redux/product/ProductActions";
 import ProductCard from "./ProductCard";
 
 const ProductsList = () => {
-  const state = useSelector(state => state.product);
+  const { products } = useSelector(state => state.product);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getProduct());
-  }, []);
-
-  // console.log(state.product.products);
+  }, [dispatch]);
 
   return (
     <>
-      {state.products?.map(product => (
-        <div key={product.id}>
-          <ProductCard product={product} />
-        </div>
+      {products?.map(product => (
+        <ProductCard product={product} key={product.id} />
       ))}
     </>
   );

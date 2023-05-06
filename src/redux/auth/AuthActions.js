@@ -1,12 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   createUserWithEmailAndPassword,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
 } from "firebase/auth";
 import { auth, googleProvider } from "../../fire";
 import {
+  userCheckAuth,
   userRegisterType,
   userSignInGoogle,
   userSignInType,
@@ -22,7 +24,7 @@ export const registerUserWidthEmailPassword = createAsyncThunk(
         email,
         password
       );
-      localStorage.setItem("user", JSON.stringify(userCredential.user));
+      localStorage.setItem("user", JSON.stringify(userCredential.user.email));
     } catch (error) {
       rejectWithValue(error);
     }
@@ -38,7 +40,8 @@ export const signInUserWidthEmailPassword = createAsyncThunk(
         email,
         password
       );
-      localStorage.setItem("user", JSON.stringify(userCredential.user));
+
+      localStorage.setItem("user", JSON.stringify(userCredential.user.email));
     } catch (error) {
       rejectWithValue(error);
     }
@@ -50,7 +53,7 @@ export const signInGoogle = createAsyncThunk(
   async ({ rejectWithValue }) => {
     try {
       const userCredential = await signInWithPopup(auth, googleProvider);
-      localStorage.setItem("user", JSON.stringify(userCredential.user));
+      localStorage.setItem("user", JSON.stringify(userCredential.user.email));
     } catch (error) {
       rejectWithValue(error);
     }
@@ -62,6 +65,21 @@ export const logOut = createAsyncThunk(
   async ({ rejectWithValue }) => {
     try {
       signOut(auth);
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
+
+export const checkAuth = createAsyncThunk(
+  userCheckAuth,
+  async (_, { rejectWithValue }) => {
+    try {
+      return new Promise(resolve => {
+        onAuthStateChanged(auth, user => {
+          resolve(user);
+        });
+      });
     } catch (error) {
       rejectWithValue(error);
     }

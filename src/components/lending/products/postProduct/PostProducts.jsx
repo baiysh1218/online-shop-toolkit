@@ -9,6 +9,7 @@ const PostProducts = () => {
   const [img, setimg] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
+  const [type, setType] = useState("");
 
   const dispatch = useDispatch();
 
@@ -17,13 +18,14 @@ const PostProducts = () => {
     img,
     name,
     price,
+    type,
   };
 
   const clearInputs = () => {
     setDescr("");
     setName("");
-    setPrice(0);
     setimg("");
+    setPrice(0);
   };
 
   const handlePostProducts = () => {
@@ -35,6 +37,7 @@ const PostProducts = () => {
     <div>
       <input
         type="text"
+        value={descr}
         onChange={e => {
           setDescr(e.target.value);
         }}
@@ -42,6 +45,7 @@ const PostProducts = () => {
       />
       <input
         type="text"
+        value={img}
         onChange={e => {
           setimg(e.target.value);
         }}
@@ -49,6 +53,7 @@ const PostProducts = () => {
       />
       <input
         type="text"
+        value={name}
         onChange={e => {
           setName(e.target.value);
         }}
@@ -56,11 +61,13 @@ const PostProducts = () => {
       />
       <input
         type="text"
+        value={price}
         onChange={e => {
           setPrice(+e.target.value);
         }}
         placeholder="price"
       />
+      <input type="text" value={type} onChange={e => setType(e.target.value)} />
       <button onClick={handlePostProducts}>POST PRODUCT</button>
     </div>
   );

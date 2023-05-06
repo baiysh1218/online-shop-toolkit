@@ -9,23 +9,22 @@ const EditProducts = () => {
   const [descr, setDescr] = useState("");
   const [img, setImg] = useState("");
   const [price, setPrice] = useState("");
+  const [type, setType] = useState("");
 
   const { id } = useParams();
 
   const dispatch = useDispatch();
 
   const updateProduct = {
-    name,
     descr,
-    price,
     img,
+    name,
+    price,
   };
 
   const handleEdit = () => {
-    console.log(updateProduct, id, collectionName);
     dispatch(
       editProduct({
-        collection: collectionName,
         id,
         updateProduct,
       })
@@ -54,6 +53,7 @@ const EditProducts = () => {
         onChange={e => setPrice(e.target.value)}
         placeholder="price"
       />
+      <input type="text" onChange={e => setType(e.target.value)} />
       <button onClick={handleEdit}>Edit Product</button>
     </div>
   );

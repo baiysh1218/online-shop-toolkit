@@ -79,11 +79,11 @@ export const productSlice = createSlice({
         state.status = "pending";
       })
       .addCase(editProduct.fulfilled, (state, { payload }) => {
-        const index = state.products.findIndex(
-          product => product.id === payload.id
-        );
         console.log(payload);
-        state.products[index] = payload.updateProduct;
+        const index = state.products.findIndex(
+          product => product?.id === payload?.id
+        );
+        state.products[index] = payload?.updateProduct;
         state.status = "succeeded";
       })
       .addCase(editProduct.rejected, (state, { payload }) => {

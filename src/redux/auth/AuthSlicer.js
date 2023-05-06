@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../../fire";
 import {
+  checkAuth,
   logOut,
   registerUserWidthEmailPassword,
   signInGoogle,
@@ -11,35 +12,15 @@ import {
 const initialState = {
   user: [],
   status: "idle",
+  isLoggedIn: false,
+  isLoading: false,
   error: null,
 };
 
 export const authSlicer = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    // userEmailPassword: (state, { payload }) => {
-    //   const { email, password } = payload;
-    //   createUserWithEmailAndPassword(auth, email, password)
-    //     .then(user => {
-    //       localStorage.setItem("user", JSON.stringify(user));
-    //     })
-    //     .catch(error => {
-    //       console.log(error.code, "register email");
-    //       console.log(error.error, "register email");
-    //     });
-    // },
-    // signInWithGoole: (state, { payload }) => {
-    //   signInWithPopup(auth, googleProvider)
-    //     .then(res => {
-    //       localStorage.setItem("user", JSON.stringify(res.user));
-    //     })
-    //     .catch(err => {
-    //       console.error(err.code, "register google");
-    //       console.log(err.massage, "register google");
-    //     });
-    // },
-  },
+  reducers: {},
   extraReducers: builder => {
     builder
       // Register User Width Email Password Start
@@ -100,8 +81,25 @@ export const authSlicer = createSlice({
       .addCase(logOut.rejected, (state, { payload }) => {
         state.status = "failed";
         state.error = payload;
+      })
+      // Log Out End
+      // Check Auth Start
+      .addCase(checkAuth.pending, state => {
+        state.status = "pending";
+        state.isLoading = true;
+      })
+      .addCase(checkAuth.fulfilled, (state, { payload }) => {
+        state.status = "succeeded";
+        state.isLoggedIn = true;
+        state.isLoading = false;
+      })
+      .addCase(checkAuth.rejected, (state, { payload }) => {
+        state.status = "failed";
+        state.isLoggedIn = false;
+        state.isLoading = true;
+        state.state.error = payload;
       });
-    // Log Out End
+    // Check Auth End
   },
 });
 

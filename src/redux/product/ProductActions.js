@@ -57,9 +57,9 @@ export const deleteProduct = createAsyncThunk(
 
 export const editProduct = createAsyncThunk(
   productsEditProduct,
-  async ({ collection, id, updateProduct }, { rejectWithValue }) => {
+  async ({ id, updateProduct }, { rejectWithValue }) => {
     try {
-      await updateDoc(doc(collection(db, collection), id), updateProduct);
+      await updateDoc(doc(collection(db, collectionName), id), updateProduct);
       return { id, updateProduct };
     } catch (error) {
       rejectWithValue(error);

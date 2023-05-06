@@ -11,7 +11,7 @@ const ProductCard = ({ product }) => {
     <div>
       <img src={product.img} alt="image is not defined" />
       <h2>{product.name}</h2>
-      <p>{product.description}</p>
+      <p>{product.descr}</p>
       <h4>{product.price}</h4>
       <button onClick={() => dispatch(deleteProduct(product.id))}>
         Delete

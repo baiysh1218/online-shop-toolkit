@@ -1,6 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { postProductPath, readProductsPath } from "../../../helpers/const";
+import {
+  authPath,
+  postProductPath,
+  readProductsPath,
+} from "../../../helpers/const";
 import "./styles/navbar.css";
 
 const Navbar = () => {
@@ -10,8 +14,9 @@ const Navbar = () => {
     <>
       <div className="wrapper">
         <div className="container">
-          <div onClick={() => navigate("/products")}>READ</div>
-          <div onClick={() => navigate("/createProduct")}>POST</div>
+          <div onClick={() => navigate(readProductsPath)}>READ</div>
+          <div onClick={() => navigate(postProductPath)}>POST</div>
+          <div onClick={() => navigate(authPath)}>AUTH</div>
         </div>
       </div>
     </>
